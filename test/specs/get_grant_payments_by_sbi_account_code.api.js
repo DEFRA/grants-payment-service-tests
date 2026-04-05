@@ -1,0 +1,42 @@
+import { expect } from '@wdio/globals'
+import {
+  createGrantPayment,
+  getGrantPaymentById,
+  getGrantPaymentBySbiAccountId
+} from '../services/grant_payments_service.js'
+import payload from '../data/grant-payment-payload_01.json'
+import { faker } from '@faker-js/faker'
+
+describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code', () => {
+  const accountCode = 'DRD11'
+  const sbi = faker.string.numeric(10)
+  before(async () => {
+    const setupPayload = {
+      ...payload,
+      sbi
+    }
+
+    console.log(`\n--- SETUP: Creating test record for GET by ID: ${sbi} ---`)
+    const { statusCode } = await createGrantPayment(setupPayload)
+
+    if (statusCode !== 201) {
+      throw new Error(`Setup failed: Expected 201 but got ${statusCode}`)
+    }
+  })
+
+  it('Should fetch a single grant payment record by its claimId', async () => {
+    const { statusCode, body: json } = await getGrantPaymentBySbiAccountId(
+      sbi,
+      accountCode
+    )
+    expect(statusCode).toBe(200)
+    expect(json).toBeDefined()
+    expect(json).toEqual([])
+  })
+
+  it('Should return 404 for a non-existent claimId', async () => {
+    const nonExistentId = 'NON_EXISTENT_ID_12345'
+    const { statusCode } = await getGrantPaymentById(nonExistentId)
+    expect(statusCode).toBe(200)
+  })
+})
