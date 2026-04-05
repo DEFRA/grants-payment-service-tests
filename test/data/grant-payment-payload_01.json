@@ -1,0 +1,90 @@
+{
+  "sbi": "106480734",
+  "frn": "1102285668",
+  "claimId": "R00000036",
+  "scheme": "SFI",
+  "grants": [
+    {
+      "sourceSystem": "FPTT",
+      "deliveryBody": "RP00",
+      "paymentRequestNumber": 1,
+      "correlationId": "f7297a7d-15d1-407d-a246-e2988680b93d",
+      "invoiceNumber": "R00000036-V001Q3",
+      "originalInvoiceNumber": "",
+      "agreementNumber": "FPTT175063071",
+      "totalAmountPence": "27284",
+      "currency": "GBP",
+      "marketingYear": "2026",
+      "payments": [
+        {
+          "dueDate": "2026-08-15",
+          "totalAmountPence": "6821",
+          "status": "pending",
+          "invoiceLines": [
+            {
+              "amountPence": "21",
+              "description": "2026-08-15: Parcel: 6898: Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            },
+            {
+              "amountPence": "6800",
+              "description": "2026-08-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            }
+          ]
+        },
+        {
+          "dueDate": "2026-11-15",
+          "totalAmountPence": "6821",
+          "status": "pending",
+          "invoiceLines": [
+            {
+              "amountPence": "21",
+              "description": "2026-11-15: Parcel: 6898: Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            },
+            {
+              "amountPence": "6800",
+              "description": "2026-11-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            }
+          ]
+        },
+        {
+          "dueDate": "2027-02-15",
+          "totalAmountPence": "6821",
+          "status": "pending",
+          "invoiceLines": [
+            {
+              "amountPence": "21",
+              "description": "2027-02-15: Parcel: 6898: Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            },
+            {
+              "amountPence": "6800",
+              "description": "2027-02-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            }
+          ]
+        },
+        {
+          "dueDate": "2027-05-15",
+          "totalAmountPence": "6821",
+          "status": "pending",
+          "invoiceLines": [
+            {
+              "amountPence": "21",
+              "description": "2027-05-15: Parcel: 6898: Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            },
+            {
+              "amountPence": "6800",
+              "description": "2027-05-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "schemeCode": "CMOR1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
