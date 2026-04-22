@@ -13,17 +13,17 @@ describe('Grants Payment Service - Get Grant Payment by SBI ID', () => {
       ...payload,
       sbi
     }
-    console.log(`\n--- SETUP: Creating test record for GET by ID: ${sbi} ---`)
+    console.log(`\n--- SETUP: Creating test record for GET by ID :: ${sbi} ---`)
     const { statusCode } = await createGrantPayment(setupPayload)
     if (statusCode !== 201) {
       throw new Error(`Setup failed: Expected 201 but got ${statusCode}`)
     }
   })
 
-  it('Should fetch a single grant payment record by its claimId', async () => {
+  it('Should fetch a single grant payment record by its sbiId', async () => {
     const { statusCode, body: json } = await getGrantPaymentById(sbi)
     expect(statusCode).toBe(200)
-    const record = json[0]
+    const record = json.docs?.[0]
     expect(record).toBeDefined()
     console.log('SBI:', record.sbi)
     expect(record.sbi).toBe(sbi)
