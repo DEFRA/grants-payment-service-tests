@@ -29,9 +29,9 @@ describe('Grants Payment Service - Get Grant Payment by SBI ID', () => {
     expect(record.sbi).toBe(sbi)
   })
 
-  // it('Should return 404 for a non-existent claimId', async () => {
-  //   const nonExistentId = 'NON_EXISTENT_ID_12345'
-  //   const { statusCode } = await getGrantPaymentById(nonExistentId)
-  //   expect(statusCode).toBe(200)
-  // })
+  it('Should return 404 for a non-existent claimId', async () => {
+    const nonExistentId = 'NON_EXISTENT_ID_12345'
+    const { statusCode } = await getGrantPaymentById(nonExistentId)
+    expect(statusCode).toBe(200)
+  })
 })
