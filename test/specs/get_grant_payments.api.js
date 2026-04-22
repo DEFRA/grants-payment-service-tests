@@ -30,9 +30,11 @@ describe('Grants Payment Service - Get Grant Payments', () => {
     const { statusCode, body: json } = await getGrantPayments()
 
     expect(statusCode).toBe(200)
-    expect(Array.isArray(json)).toBe(true)
+    expect(Array.isArray(json.docs)).toBe(true)
 
-    const createdRecord = json.find((record) => record.claimId === testClaimId)
+    const createdRecord = json.docs.find(
+      (record) => record.claimId === testClaimId
+    )
     if (createdRecord) {
       console.log('Matched Record', JSON.stringify(createdRecord, null, 2))
     } else {

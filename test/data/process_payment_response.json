@@ -1,0 +1,50 @@
+{
+  "result": [
+    {
+      "status": "success",
+      "message": "Payload sent to payment hub successfully",
+      "body": {
+        "sourceSystem": "FPTT",
+        "ledger": "AP",
+        "deliveryBody": "RP00",
+        "invoiceNumber": "R00000020-V001Q1",
+        "frn": "1102285668",
+        "sbi": "106480734",
+        "fesCode": "FALS_FPTT",
+        "marketingYear": "2026",
+        "paymentRequestNumber": 1,
+        "agreementNumber": "408326850",
+        "contractNumber": "R00000020",
+        "currency": "GBP",
+        "dueDate": "10/04/2026",
+        "remittanceDescription": "Farm Payments Technical Test Payment",
+        "invoiceLines": [
+          {
+            "schemeCode": "84011",
+            "accountCode": "SOS710",
+            "fundCode": "DRD10",
+            "agreementNumber": "408326850",
+            "description": "G00 - Gross Value of Claim",
+            "value": "0.21",
+            "deliveryBody": "RP00",
+            "marketingYear": "2026"
+          },
+          {
+            "schemeCode": "84011",
+            "accountCode": "SOS710",
+            "fundCode": "DRD10",
+            "agreementNumber": "408326850",
+            "description": "G00 - Gross Value of Claim",
+            "value": "68.00",
+            "deliveryBody": "RP00",
+            "marketingYear": "2026"
+          }
+        ],
+        "correlationId": "0115fdb9-4c92-4cb2-ac30-fe8e2e063a10",
+        "value": "-68.21",
+        "annualValue": "272.84"
+      },
+      "response": {}
+    }
+  ]
+}

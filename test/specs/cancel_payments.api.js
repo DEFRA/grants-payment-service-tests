@@ -29,7 +29,7 @@ describe('Grants Payment Service - Cancel Payments', () => {
     // Step 4: Verification
     await browser.pause(2000) // Wait for SQS
     const { body: record } = await GrantPaymentsService.getGrantPaymentById(sbi)
-    const recordData = Array.isArray(record) ? record[0] : record
+    const recordData = Array.isArray(record.docs) ? record.docs[0] : record
     const payments = recordData.grants[0].payments
     console.log('--- Verifying Payment Statuses ---')
 
