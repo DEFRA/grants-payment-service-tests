@@ -13,13 +13,14 @@ describe('Grants Payment Service - Get Daily Payments', () => {
 
   before(async () => {
     testClaimId = `R${Date.now()}`
-    targetDate = payload.grants[0].payments[0].dueDate
+    const randomDateObj = faker.date.future({ years: 1 })
+    targetDate = randomDateObj.toISOString().split('T')[0]
     const setupPayload = {
       ...payload,
       claimId: testClaimId,
       sbi
     }
-
+    setupPayload.grants[0].payments[0].dueDate = targetDate
     const { statusCode } = await createGrantPayment(setupPayload)
     if (statusCode !== 201) {
       throw new Error(`Setup failed: Expected 201 but got ${statusCode}`)
