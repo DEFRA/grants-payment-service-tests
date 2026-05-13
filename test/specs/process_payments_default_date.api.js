@@ -43,7 +43,6 @@ describe('Grants Payment Service - Default Date Processing', () => {
   })
 
   it('should process payments for tomorrow by default when no date is provided in the request', async () => {
-    // 1. Act: Call processPayments without passing any date argument
     const { statusCode, body: processResult } =
       await GrantPaymentsService.processPayments()
 
@@ -52,7 +51,6 @@ describe('Grants Payment Service - Default Date Processing', () => {
       `Triggered daily payment processing for ${tomorrowISO}`
     )
 
-    // 2. Assert: Verify our specific record was caught in the processing batch
     const processedItem = processResult.result.find(
       (item) => item.body.sbi === testSbi
     )
