@@ -157,16 +157,20 @@ export async function getDailyPayments(date) {
   if (responseData.docs) {
     console.log(`RECORDS FOUND: ${responseData.docs.length}\n`)
   }
-
+  console.log('RESPONSE DATA:', responseData)
   return { statusCode, body: responseData }
 }
 
 /**
- * Trigger Process Payments for a specific date
- * @param {string} date - Format YYYY-MM-DD
+ * Trigger Process Payments
+ * @param {string} [date] - Optional format YYYY-MM-DD.
+ * If omitted, the API defaults to tomorrow's date.
  */
 export async function processPayments(date) {
-  const url = `${getBaseUrl()}api/test/process-payments/${date}`
+  const path = date
+    ? `api/test/process-payments/${date}`
+    : `api/test/process-payments`
+  const url = `${getBaseUrl()}${path}`
 
   console.log(`\n>>>>> OUTGOING REQUEST : process-payments:POST >>>>>`)
   console.log(`URL: ${url}`)
