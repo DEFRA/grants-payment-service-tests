@@ -3,11 +3,10 @@ import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import payload from '../data/grant-payment-payload_01.json'
 import { faker } from '@faker-js/faker'
 
-describe('Grants Payment Service - Default Date Processing', () => {
-  let testSbi
-  let testClaimId
-  let tomorrowISO
-  let tomorrowHubFormat
+describe('Grants Payment Service - Multi-Date Processing', () => {
+  let todaySbi, tomorrowSbi
+  let todayISO, tomorrowISO
+  let todayHubFormat, tomorrowHubFormat
 
   const formatToHubDate = (isoDate) => {
     const [y, m, d] = isoDate.split('-')
@@ -15,64 +14,59 @@ describe('Grants Payment Service - Default Date Processing', () => {
   }
 
   before(async () => {
-    // 1. Calculate Tomorrow's Date
+    // 1. Calculate Dates (Today and Tomorrow)
+    const today = new Date()
     const tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    tomorrowISO = tomorrow.toISOString().split('T')[0]
-    tomorrowHubFormat = formatToHubDate(tomorrowISO)
+    tomorrow.setDate(today.getDate() + 1)
 
-    testSbi = faker.string.numeric(10)
-    testClaimId = `DFT${Date.now()}`
+    todayISO = today.toISOString().split('T')[0]
+    tomorrowISO = tomorrow.toISOString().split('T')[0]
+
+    todayHubFormat = formatToHubDate(todayISO)
+    tomorrowHubFormat = formatToHubDate(tomorrowISO)
+    todaySbi = faker.string.numeric(10)
+    tomorrowSbi = faker.string.numeric(10)
 
     console.log(
-      `>>> Setup: Creating record for tomorrow's date: ${tomorrowISO}`
+      `>>> Setup: Creating records for Today (${todayISO}) and Tomorrow (${tomorrowISO})`
     )
 
-    const setupPayload = {
-      ...payload,
-      claimId: testClaimId,
-      sbi: testSbi
+    // 3. Helper to build payload and create records
+    const setupRecord = async (sbi, date) => {
+      const testPayload = JSON.parse(JSON.stringify(payload))
+      testPayload.sbi = sbi
+      testPayload.claimId = `CLAIM_${sbi}_${Date.now()}`
+      testPayload.grants[0].payments[0].dueDate = date
+      testPayload.grants[0].payments[0].status = 'pending'
+      const { statusCode } =
+        await GrantPaymentsService.createGrantPayment(testPayload)
+      expect(statusCode).toBe(201)
     }
 
-    setupPayload.grants[0].payments[0].dueDate = tomorrowISO
-    setupPayload.grants[0].payments[0].status = 'pending'
-
-    const { statusCode } =
-      await GrantPaymentsService.createGrantPayment(setupPayload)
-    expect(statusCode).toBe(201)
+    await setupRecord(todaySbi, todayISO)
+    await setupRecord(tomorrowSbi, tomorrowISO)
   })
 
-  it('should process payments for tomorrow by default when no date is provided in the request', async () => {
+  it('should process both Today and Tomorrow payments in a single service call', async () => {
     const { statusCode, body: processResult } =
       await GrantPaymentsService.processPayments()
-
     expect(statusCode).toBe(200)
-    expect(processResult.message).toContain(
-      `Triggered daily payment processing for ${tomorrowISO}`
-    )
+    const results = processResult.result
+    const processedSbis = results.map((item) => item.body.sbi)
+    expect(processedSbis).toContain(todaySbi)
+    expect(processedSbis).toContain(tomorrowSbi)
+    const todayItem = results.find((item) => item.body.sbi === todaySbi)
+    const tomorrowItem = results.find((item) => item.body.sbi === tomorrowSbi)
+    expect(todayItem.body.dueDate).toBe(todayHubFormat)
+    expect(tomorrowItem.body.dueDate).toBe(tomorrowHubFormat)
+    for (const sbi of [todaySbi, tomorrowSbi]) {
+      const { body: afterBody } =
+        await GrantPaymentsService.getGrantPaymentById(sbi)
+      const recordInDb = afterBody.docs.find((r) => r.sbi === sbi)
 
-    const processedItem = processResult.result.find(
-      (item) => item.body.sbi === testSbi
-    )
-
-    if (!processedItem) {
-      throw new Error(
-        `SBI ${testSbi} was not found in the processed results for ${tomorrowISO}`
-      )
+      const actualStatus = recordInDb.grants[0].payments[0].status
+      console.log(`>>> Verification: SBI ${sbi} status is now: ${actualStatus}`)
+      expect(actualStatus).toBe('submitted')
     }
-
-    expect(processedItem.status).toBe('warning')
-    expect(processedItem.body.dueDate).toBe(tomorrowHubFormat)
-    expect(processedItem.body.sbi).toBe(testSbi)
-
-    const { body: afterBody } =
-      await GrantPaymentsService.getGrantPaymentById(testSbi)
-    const recordInDb = afterBody.docs.find((r) => r.sbi === testSbi)
-
-    const actualStatus = recordInDb.grants[0].payments[0].status
-    console.log(
-      `>>> Verification: Payment for ${tomorrowISO} status is now: ${actualStatus}`
-    )
-    expect(actualStatus).toBe('submitted')
   })
 })
