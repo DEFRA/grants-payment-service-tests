@@ -8,7 +8,15 @@ describe('Grants Payment Service - Create Grant Payments', () => {
     const sbi = faker.string.numeric(10)
     const setupPayload = {
       ...payload,
-      sbi
+      sbi,
+      grants: payload.grants.map((grant) => ({
+        ...grant,
+        correlationId: faker.string.uuid(),
+        payments: grant.payments.map((payment) => ({
+          ...payment,
+          correlationId: faker.string.uuid()
+        }))
+      }))
     }
     const { statusCode, body } = await createGrantPayment(setupPayload)
     expect([201]).toContain(statusCode)

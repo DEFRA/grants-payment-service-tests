@@ -24,6 +24,7 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
 
     todayHubFormat = formatToHubDate(todayISO)
     tomorrowHubFormat = formatToHubDate(tomorrowISO)
+
     todaySbi = faker.string.numeric(10)
     tomorrowSbi = faker.string.numeric(10)
 
@@ -31,13 +32,28 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
       `>>> Setup: Creating records for Today (${todayISO}) and Tomorrow (${tomorrowISO})`
     )
 
-    // 3. Helper to build payload and create records
+    // Helper to build payload and create records
     const setupRecord = async (sbi, date) => {
       const testPayload = JSON.parse(JSON.stringify(payload))
+
       testPayload.sbi = sbi
       testPayload.claimId = `CLAIM_${sbi}_${Date.now()}`
-      testPayload.grants[0].payments[0].dueDate = date
-      testPayload.grants[0].payments[0].status = 'pending'
+
+      // Dynamic grant correlationId
+      testPayload.grants = testPayload.grants.map((grant) => ({
+        ...grant,
+        correlationId: faker.string.uuid(),
+
+        payments: grant.payments.map((payment, index) => ({
+          ...payment,
+          dueDate: index === 0 ? date : payment.dueDate,
+          status: index === 0 ? 'pending' : payment.status,
+
+          // Dynamic payment correlationId
+          correlationId: faker.string.uuid()
+        }))
+      }))
+
       const { statusCode } =
         await GrantPaymentsService.createGrantPayment(testPayload)
       expect(statusCode).toBe(201)

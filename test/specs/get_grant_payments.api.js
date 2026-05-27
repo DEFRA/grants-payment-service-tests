@@ -8,15 +8,25 @@ import { faker } from '@faker-js/faker'
 
 describe('Grants Payment Service - Get Grant Payments', () => {
   let testClaimId
+  let setupPayload
+
   const sbi = faker.string.numeric(10)
 
   before(async () => {
     testClaimId = `R${Date.now()}`
 
-    const setupPayload = {
+    setupPayload = {
       ...payload,
+      sbi,
       claimId: testClaimId,
-      sbi
+      grants: payload.grants.map((grant) => ({
+        ...grant,
+        correlationId: faker.string.uuid(),
+        payments: grant.payments.map((payment) => ({
+          ...payment,
+          correlationId: faker.string.uuid()
+        }))
+      }))
     }
 
     const { statusCode } = await createGrantPayment(setupPayload)
@@ -60,6 +70,7 @@ describe('Grants Payment Service - Get Grant Payments', () => {
     const expectedGrant = payload.grants[0]
     expect(grant.sourceSystem).toBe(expectedGrant.sourceSystem)
     expect(grant.paymentRequestNumber).toBe(expectedGrant.paymentRequestNumber)
+    // Dynamic correlationId validation
     expect(grant.correlationId).toBe(expectedGrant.correlationId)
     expect(grant.invoiceNumber).toBe(expectedGrant.invoiceNumber)
     expect(grant.originalInvoiceNumber).toBe(
@@ -83,6 +94,9 @@ describe('Grants Payment Service - Get Grant Payments', () => {
       expect(payment.dueDate).toBe(expectedPayment.dueDate)
       expect(payment.status).toBe(expectedPayment.status)
 
+      // Dynamic correlationId validation
+      expect(payment.correlationId).toBe(expectedPayment.correlationId)
+
       expect(payment.totalAmountPence).toEqual({
         $numberDecimal: expectedPayment.totalAmountPence
       })
@@ -90,9 +104,11 @@ describe('Grants Payment Service - Get Grant Payments', () => {
       expect(payment.invoiceLines).toHaveLength(
         expectedPayment.invoiceLines.length
       )
+
       // Invoice lines
       payment.invoiceLines.forEach((line, j) => {
         const expectedLine = expectedPayment.invoiceLines[j]
+
         expect(line.schemeCode).toBe(expectedLine.schemeCode)
         expect(line.description).toBe(expectedLine.description)
         expect(line.deliveryBody).toBe(expectedGrant.deliveryBody)
@@ -100,13 +116,16 @@ describe('Grants Payment Service - Get Grant Payments', () => {
         expect(line.amountPence).toEqual({
           $numberDecimal: expectedLine.amountPence
         })
+
         // static fields
         expect(line.accountCode).toBeDefined()
         expect(line.fundCode).toBeDefined()
         expect(line._id).toBeDefined()
       })
+
       expect(payment._id).toBeDefined()
     })
+
     expect(grant._id).toBeDefined()
   })
 })
