@@ -45,6 +45,7 @@ describe('Grants Payment Service - Get Grant Payments', () => {
     const createdRecord = json.docs.find(
       (record) => record.claimId === testClaimId
     )
+
     if (createdRecord) {
       console.log('Matched Record', JSON.stringify(createdRecord, null, 2))
     } else {
@@ -52,6 +53,7 @@ describe('Grants Payment Service - Get Grant Payments', () => {
         `ERROR: Record with SBI ${sbi} and ClaimId ${testClaimId} not found in daily payments!`
       )
     }
+
     expect(createdRecord).toBeDefined()
 
     // Top-level checks
@@ -66,19 +68,30 @@ describe('Grants Payment Service - Get Grant Payments', () => {
 
     // Grants
     expect(createdRecord.grants).toHaveLength(1)
+
     const grant = createdRecord.grants[0]
-    const expectedGrant = payload.grants[0]
+
+    // IMPORTANT: use setupPayload, not original payload
+    const expectedGrant = setupPayload.grants[0]
+
     expect(grant.sourceSystem).toBe(expectedGrant.sourceSystem)
     expect(grant.paymentRequestNumber).toBe(expectedGrant.paymentRequestNumber)
+
     // Dynamic correlationId validation
     expect(grant.correlationId).toBe(expectedGrant.correlationId)
+
     expect(grant.invoiceNumber).toBe(expectedGrant.invoiceNumber)
+
     expect(grant.originalInvoiceNumber).toBe(
       expectedGrant.originalInvoiceNumber
     )
+
     expect(grant.agreementNumber).toBe(expectedGrant.agreementNumber)
+
     expect(grant.currency).toBe(expectedGrant.currency)
+
     expect(grant.marketingYear).toBe(expectedGrant.marketingYear)
+
     expect(grant.deliveryBody).toBe(expectedGrant.deliveryBody)
 
     // Decimal check
@@ -88,13 +101,15 @@ describe('Grants Payment Service - Get Grant Payments', () => {
 
     // Payments
     expect(grant.payments).toHaveLength(4)
+
     grant.payments.forEach((payment, i) => {
       const expectedPayment = expectedGrant.payments[i]
 
       expect(payment.dueDate).toBe(expectedPayment.dueDate)
+
       expect(payment.status).toBe(expectedPayment.status)
 
-      // Dynamic correlationId validation
+      // Dynamic payment correlationId validation
       expect(payment.correlationId).toBe(expectedPayment.correlationId)
 
       expect(payment.totalAmountPence).toEqual({
@@ -110,14 +125,16 @@ describe('Grants Payment Service - Get Grant Payments', () => {
         const expectedLine = expectedPayment.invoiceLines[j]
 
         expect(line.schemeCode).toBe(expectedLine.schemeCode)
+
         expect(line.description).toBe(expectedLine.description)
+
         expect(line.deliveryBody).toBe(expectedGrant.deliveryBody)
 
         expect(line.amountPence).toEqual({
           $numberDecimal: expectedLine.amountPence
         })
 
-        // static fields
+        // Static generated fields
         expect(line.accountCode).toBeDefined()
         expect(line.fundCode).toBeDefined()
         expect(line._id).toBeDefined()
