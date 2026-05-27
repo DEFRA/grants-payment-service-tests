@@ -14,7 +14,15 @@ describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code'
   before(async () => {
     const setupPayload = {
       ...payload,
-      sbi
+      sbi,
+      grants: payload.grants.map((grant) => ({
+        ...grant,
+        correlationId: faker.string.uuid(),
+        payments: grant.payments.map((payment) => ({
+          ...payment,
+          correlationId: faker.string.uuid()
+        }))
+      }))
     }
 
     console.log(`\n--- SETUP: Creating test record for GET by ID: ${sbi} ---`)

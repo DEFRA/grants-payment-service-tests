@@ -17,8 +17,16 @@ describe('Grants Payment Service - Get Daily Payments', () => {
     targetDate = randomDateObj.toISOString().split('T')[0]
     const setupPayload = {
       ...payload,
+      sbi,
       claimId: testClaimId,
-      sbi
+      grants: payload.grants.map((grant) => ({
+        ...grant,
+        correlationId: faker.string.uuid(),
+        payments: grant.payments.map((payment) => ({
+          ...payment,
+          correlationId: faker.string.uuid()
+        }))
+      }))
     }
     setupPayload.grants[0].payments[0].dueDate = targetDate
     const { statusCode } = await createGrantPayment(setupPayload)

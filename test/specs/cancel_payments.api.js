@@ -10,7 +10,15 @@ describe('Grants Payment Service - Cancel Payments', () => {
   it('should create, process one payment, and then cancel all', async () => {
     const setupPayload = {
       ...payload,
-      sbi: sbi
+      sbi,
+      grants: payload.grants.map((grant) => ({
+        ...grant,
+        correlationId: faker.string.uuid(),
+        payments: grant.payments.map((payment) => ({
+          ...payment,
+          correlationId: faker.string.uuid()
+        }))
+      }))
     }
     // Step 1: Create
     await GrantPaymentsService.createGrantPayment(setupPayload)
