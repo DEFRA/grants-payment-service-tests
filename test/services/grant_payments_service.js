@@ -1,6 +1,7 @@
 import { request } from 'undici'
 
 const endpoint = 'api/test/grant-payments'
+const endpointSQS = 'api/test'
 const getBaseUrl = () => browser.options.baseUrl || process.env.BASE_URL
 
 /**
@@ -41,9 +42,9 @@ export async function getHealth() {
 }
 
 /**
- * Create Grant Payment
+ * Create Grant Payment direct DB
  */
-export async function createGrantPayment(payload) {
+export async function createGrantPaymentDirect(payload) {
   const url = `${getBaseUrl()}${endpoint}`
 
   console.log('\n>>>>> OUTGOING REQUEST : grant-payments:POST : Create >>>>>')
@@ -62,6 +63,43 @@ export async function createGrantPayment(payload) {
   console.log(`BODY: ${JSON.stringify(responseData, null, 2)}\n`)
 
   return { statusCode, body: responseData }
+}
+
+/**
+ * Create Grant Payment via Queue
+ */
+export async function createGrantPaymentSQS(payload) {
+  const url = `${getBaseUrl()}${endpointSQS}/queue-message/gps__sqs__create_payment.fifo`
+
+  const queuePayload = {
+    type: 'create_payment',
+    data: payload
+  }
+
+  console.log(
+    '\n>>>>> OUTGOING REQUEST : queue-message:POST : create_payment >>>>>'
+  )
+  console.log(`URL: ${url}`)
+  console.log(`PAYLOAD: ${JSON.stringify(queuePayload, null, 2)}`)
+
+  const { statusCode, body } = await request(url, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify(queuePayload)
+  })
+
+  const responseData = await body.json()
+
+  console.log(
+    '<<<<< INCOMING RESPONSE : queue-message:POST : create_payment <<<<<'
+  )
+  console.log(`STATUS: ${statusCode}`)
+  console.log(`BODY: ${JSON.stringify(responseData, null, 2)}\n`)
+  await new Promise((resolve) => setTimeout(resolve, 5000))
+  return {
+    statusCode,
+    body: responseData
+  }
 }
 
 /**

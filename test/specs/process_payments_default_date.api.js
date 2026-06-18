@@ -55,8 +55,8 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
       }))
 
       const { statusCode } =
-        await GrantPaymentsService.createGrantPayment(testPayload)
-      expect(statusCode).toBe(201)
+        await GrantPaymentsService.createGrantPaymentSQS(testPayload)
+      expect(statusCode).toBe(200)
     }
 
     await setupRecord(todaySbi, todayISO)
@@ -83,6 +83,7 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
       const actualStatus = recordInDb.grants[0].payments[0].status
       console.log(`>>> Verification: SBI ${sbi} status is now: ${actualStatus}`)
       expect(actualStatus).toBe('submitted')
+      await GrantPaymentsService.deleteGrantPaymentsById(sbi)
     }
   })
 })

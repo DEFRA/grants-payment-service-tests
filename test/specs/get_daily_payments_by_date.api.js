@@ -1,10 +1,11 @@
 import { expect } from '@wdio/globals'
 import {
-  createGrantPayment,
+  createGrantPaymentSQS,
   getDailyPayments
 } from '../services/grant_payments_service.js'
 import payload from '../data/grant-payment-payload_01.json'
 import { faker } from '@faker-js/faker'
+import * as GrantPaymentsService from '~/test/services/grant_payments_service.js'
 
 describe('Grants Payment Service - Get Daily Payments', () => {
   let testClaimId
@@ -29,9 +30,10 @@ describe('Grants Payment Service - Get Daily Payments', () => {
       }))
     }
     setupPayload.grants[0].payments[0].dueDate = targetDate
-    const { statusCode } = await createGrantPayment(setupPayload)
-    if (statusCode !== 201) {
-      throw new Error(`Setup failed: Expected 201 but got ${statusCode}`)
+    console.log('targetDate', targetDate)
+    const { statusCode } = await createGrantPaymentSQS(setupPayload)
+    if (statusCode !== 200) {
+      throw new Error(`Setup failed: Expected 200 but got ${statusCode}`)
     }
   })
 
@@ -91,5 +93,6 @@ describe('Grants Payment Service - Get Daily Payments', () => {
       })
       expect(line._id).toBeDefined()
     })
+    await GrantPaymentsService.deleteGrantPaymentsById(sbi)
   })
 })

@@ -21,7 +21,7 @@ describe('Grants Payment Service - Cancel Payments', () => {
       }))
     }
     // Step 1: Create
-    await GrantPaymentsService.createGrantPayment(setupPayload)
+    await GrantPaymentsService.createGrantPaymentDirect(setupPayload)
     await browser.pause(2000)
     // Step 2: Process 1st quarter to change status to 'submitted'
     const firstQuarterDate = payload.grants[0].payments[0].dueDate
@@ -53,5 +53,6 @@ describe('Grants Payment Service - Cancel Payments', () => {
       )
       expect(payments[i].status).toBe('cancelled')
     }
+    await GrantPaymentsService.deleteGrantPaymentsById(sbi)
   })
 })

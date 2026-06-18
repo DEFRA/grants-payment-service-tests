@@ -1,7 +1,8 @@
 import { expect } from '@wdio/globals'
-import { createGrantPayment } from '../services/grant_payments_service.js'
+import { createGrantPaymentSQS } from '../services/grant_payments_service.js'
 import payload from '../data/grant-payment-payload_01.json'
 import { faker } from '@faker-js/faker'
+import * as GrantPaymentsService from '~/test/services/grant_payments_service.js'
 
 describe('Grants Payment Service - Create Grant Payments', () => {
   it('Should successfully create grant payments', async () => {
@@ -18,9 +19,9 @@ describe('Grants Payment Service - Create Grant Payments', () => {
         }))
       }))
     }
-    const { statusCode, body } = await createGrantPayment(setupPayload)
-    expect([201]).toContain(statusCode)
-    expect(body.message).toBe('Grant payments created')
-    expect(body.id).toBeDefined()
+    const { statusCode, body } = await createGrantPaymentSQS(setupPayload)
+    expect(200).toBe(statusCode)
+    expect(body.message).toBe('Test queue message posted')
+    await GrantPaymentsService.deleteGrantPaymentsById(sbi)
   })
 })
