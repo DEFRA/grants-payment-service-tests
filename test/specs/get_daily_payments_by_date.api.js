@@ -14,8 +14,8 @@ describe('Grants Payment Service - Get Daily Payments', () => {
 
   before(async () => {
     testClaimId = `R${Date.now()}`
-    const randomDateObj = faker.date.future({ years: 1 })
-    targetDate = randomDateObj.toISOString().split('T')[0]
+    targetDate = '2020-01-01'
+    console.log('targetDate', targetDate)
     const setupPayload = {
       ...payload,
       sbi,
