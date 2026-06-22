@@ -1,12 +1,12 @@
 import { expect } from '@wdio/globals'
 import {
-  createGrantPayment,
+  createGrantPaymentSQS,
   getGrantPaymentById,
   getGrantPaymentBySbiAccountId
 } from '../services/grant_payments_service.js'
 import payload from '../data/grant-payment-payload_01.json'
 import { faker } from '@faker-js/faker'
-import * as GrantPaymentsService from '~/test/services/grant_payments_service.js'
+import * as GrantPaymentsService from '../services/grant_payments_service.js'
 
 describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code', () => {
   const accountCode = 'DRD10'
@@ -26,12 +26,12 @@ describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code'
     }
 
     console.log(`\n--- SETUP: Creating test record for GET by ID: ${sbi} ---`)
-    const { statusCode } = await createGrantPayment(setupPayload)
+    const { statusCode } = await createGrantPaymentSQS(setupPayload)
 
-    if (statusCode !== 201) {
-      throw new Error(`Setup failed: Expected 201 but got ${statusCode}`)
+    if (statusCode !== 200) {
+      throw new Error(`Setup failed: Expected 200 but got ${statusCode}`)
     }
-    expect(statusCode).toBe(201)
+    expect(statusCode).toBe(200)
   })
 
   it('Should fetch a single grant payment record by its claimId', async () => {
@@ -52,6 +52,7 @@ describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code'
     expect(json.docs.length).toBeGreaterThan(0)
     expect(json.sbi).toBe(sbi)
     expect(json.fundCode).toBe(accountCode)
+    await GrantPaymentsService.deleteGrantPaymentsById(sbi)
   })
 
   it('Should return 404 for a non-existent claimId', async () => {

@@ -26,8 +26,8 @@ describe('Delete Grant Payments By SBI', () => {
       }))
     }
     const { statusCode } =
-      await GrantPaymentsService.createGrantPayment(setupPayload)
-    expect(statusCode).toBe(201)
+      await GrantPaymentsService.createGrantPaymentSQS(setupPayload)
+    expect(statusCode).toBe(200)
     const { body: paymentsBody } =
       await GrantPaymentsService.getGrantPaymentById(sbi)
     expect(paymentsBody).toBeDefined()
@@ -49,5 +49,6 @@ describe('Delete Grant Payments By SBI', () => {
     expect(paymentsBody.sbi).toBe(sbi)
     expect(paymentsBody.docs).toEqual([])
     expect(paymentsBody.docs).toHaveLength(0)
+    await GrantPaymentsService.deleteGrantPaymentsById(sbi)
   })
 })

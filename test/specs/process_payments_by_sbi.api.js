@@ -24,8 +24,8 @@ describe('Grant Payments Service - Process Payments By SBI', () => {
       }))
     }
     const { statusCode } =
-      await GrantPaymentsService.createGrantPayment(setupPayload)
-    expect(statusCode).toBe(201)
+      await GrantPaymentsService.createGrantPaymentSQS(setupPayload)
+    expect(statusCode).toBe(200)
   })
 
   it('Should process all payments for the supplied SBI', async () => {
@@ -154,5 +154,6 @@ describe('Grant Payments Service - Process Payments By SBI', () => {
       expect(payment.status).toBe('submitted')
       expect(payment.status).not.toBe('pending')
     })
+    await GrantPaymentsService.deleteGrantPaymentsById(sbi)
   })
 })

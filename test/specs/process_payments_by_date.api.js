@@ -32,9 +32,9 @@ describe('Grants Payment Service - Process Payments', () => {
     }
 
     const { statusCode } =
-      await GrantPaymentsService.createGrantPayment(setupPayload)
+      await GrantPaymentsService.createGrantPaymentSQS(setupPayload)
 
-    expect(statusCode).toBe(201)
+    expect(statusCode).toBe(200)
   })
 
   // Iterate through dynamic payload payments
@@ -169,6 +169,7 @@ describe('Grants Payment Service - Process Payments', () => {
 
         expect(nextPaymentStatus).toBe('pending')
       }
+      await GrantPaymentsService.deleteGrantPaymentsById(sbi)
     })
   })
 })
