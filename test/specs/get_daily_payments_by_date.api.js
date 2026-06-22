@@ -5,7 +5,7 @@ import {
 } from '../services/grant_payments_service.js'
 import payload from '../data/grant-payment-payload_01.json'
 import { faker } from '@faker-js/faker'
-import * as GrantPaymentsService from '~/test/services/grant_payments_service.js'
+import * as GrantPaymentsService from '../services/grant_payments_service.js'
 
 describe('Grants Payment Service - Get Daily Payments', () => {
   let testClaimId
