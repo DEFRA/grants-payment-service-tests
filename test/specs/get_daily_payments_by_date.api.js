@@ -3,9 +3,10 @@ import {
   createGrantPaymentSQS,
   getDailyPayments
 } from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-payload_01.json'
+import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
+import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
 
 describe('Grants Payment Service - Get Daily Payments', () => {
   let testClaimId
@@ -32,9 +33,7 @@ describe('Grants Payment Service - Get Daily Payments', () => {
     setupPayload.grants[0].payments[0].dueDate = targetDate
     console.log('targetDate', targetDate)
     const { statusCode } = await createGrantPaymentSQS(setupPayload)
-    if (statusCode !== 200) {
-      throw new Error(`Setup failed: Expected 200 but got ${statusCode}`)
-    }
+    await expectCreatedSfiGrantPayment(statusCode, setupPayload)
   })
 
   it('Should find the created record within the daily payments for the scheduled date', async () => {

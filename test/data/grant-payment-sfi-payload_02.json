@@ -1,0 +1,41 @@
+{
+  "sbi": "106480734",
+  "frn": "1102285668",
+  "claimId": "R00000036",
+  "scheme": "SFI",
+  "grants": [
+    {
+      "sourceSystem": "FPTT",
+      "deliveryBody": "RP00",
+      "fesCode": "FALS_FPTT",
+      "paymentRequestNumber": 1,
+      "correlationId": "f7297a7d-15d1-407d-a246-e2988680b93d",
+      "invoiceNumber": "R00000036-V001QX",
+      "ledger": "AP",
+      "originalInvoiceNumber": "",
+      "agreementNumber": "FPTT175063071",
+      "totalAmountPence": "27284",
+      "currency": "GBP",
+      "marketingYear": "2026",
+      "payments": [
+        {
+          "dueDate": "2026-08-15",
+          "totalAmountPence": "21",
+          "status": "pending",
+          "invoiceLines": [
+            {
+              "accountCode": "SOS710",
+              "amountPence": "21",
+              "deliveryBody": "RP00",
+              "description": "2026-08-15: Parcel: 6898: Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
+              "schemeCode": "CMOR1"
+            }
+          ],
+          "correlationId": "95e0545d-94c8-4fc1-9fab-3ff2fbff9e40"
+        }
+      ]
+    }
+  ]
+}

@@ -4,9 +4,10 @@ import {
   getGrantPaymentById,
   getGrantPaymentBySbiAccountId
 } from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-payload_01.json'
+import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
+import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
 
 describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code', () => {
   const accountCode = 'DRD10'
@@ -28,10 +29,7 @@ describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code'
     console.log(`\n--- SETUP: Creating test record for GET by ID: ${sbi} ---`)
     const { statusCode } = await createGrantPaymentSQS(setupPayload)
 
-    if (statusCode !== 200) {
-      throw new Error(`Setup failed: Expected 200 but got ${statusCode}`)
-    }
-    expect(statusCode).toBe(200)
+    await expectCreatedSfiGrantPayment(statusCode, setupPayload)
   })
 
   it('Should fetch a single grant payment record by its claimId', async () => {

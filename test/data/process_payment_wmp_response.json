@@ -1,0 +1,44 @@
+{
+  "result": [
+    {
+      "status": "warning",
+      "message": "Payment Hub feature flag is disabled. Payload that would have been sent",
+      "body": {
+        "sourceSystem": "WMP",
+        "ledger": "AP",
+        "deliveryBody": "RP10",
+        "invoiceNumber": "R00000001-V001Q1",
+        "frn": "9902285668",
+        "sbi": "4730469392",
+        "fesCode": "FALS_WMP",
+        "marketingYear": "2026",
+        "paymentRequestNumber": 1,
+        "agreementNumber": "123456789",
+        "contractNumber": "R1782427567918",
+        "currency": "GBP",
+        "dueDate": "26/06/2026",
+        "remittanceDescription": "Woodland Management Plan Payment",
+        "invoiceLines": [
+          {
+            "schemeCode": "82555",
+            "accountCode": "SOS710",
+            "fundCode": "DRD10",
+            "agreementNumber": "123456789",
+            "description": "G00 - Gross Value of Claim",
+            "value": "12.34",
+            "deliveryBody": "RP10",
+            "marketingYear": "2026"
+          }
+        ],
+        "correlationId": "655b3e98-e843-4009-bd1a-8acb97dd7eaa",
+        "value": "-12.34",
+        "annualValue": "12.34"
+      },
+      "response": null,
+      "db": {
+        "paymentId": "6a3dafb0c847871df9b0ad1f",
+        "docId": "6a3dafb0c847871df9b0ad1d"
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-payload_01.json'
+import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
 describe('Grants Payment Service - Process Payments', () => {
@@ -34,7 +35,7 @@ describe('Grants Payment Service - Process Payments', () => {
     const { statusCode } =
       await GrantPaymentsService.createGrantPaymentSQS(setupPayload)
 
-    expect(statusCode).toBe(200)
+    await expectCreatedSfiGrantPayment(statusCode, setupPayload)
   })
 
   // Iterate through dynamic payload payments

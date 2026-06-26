@@ -1,0 +1,41 @@
+{
+  "sbi": "999999996",
+  "frn": "9902285668",
+  "claimId": "R00000036",
+  "scheme": "WMP",
+  "grants": [
+    {
+      "sourceSystem": "WMP",
+      "deliveryBody": "RP10",
+      "fesCode": "FALS_WMP",
+      "paymentRequestNumber": 1,
+      "correlationId": "f7297a7d-15d1-407d-a246-e2988685b93d",
+      "invoiceNumber": "R00000001-V001QX",
+      "ledger": "AP",
+      "originalInvoiceNumber": "",
+      "agreementNumber": "WPM123456789",
+      "totalAmountPence": "1234",
+      "currency": "GBP",
+      "marketingYear": "2026",
+      "payments": [
+        {
+          "dueDate": "2026-12-15",
+          "totalAmountPence": "1234",
+          "status": "pending",
+          "invoiceLines": [
+            {
+              "accountCode": "SOS710",
+              "amountPence": "1234",
+              "deliveryBody": "RP10",
+              "description": "Woodland Management Plan Payment",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
+              "schemeCode": "PA3"
+            }
+          ],
+          "correlationId": "95e0545d-94c8-4fc1-9fab-3ff2fbff9w40"
+        }
+      ]
+    }
+  ]
+}

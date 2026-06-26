@@ -1,6 +1,7 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-payload_01.json'
+import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
 describe('Grants Payment Service - Multi-Date Processing', () => {
@@ -56,7 +57,7 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
 
       const { statusCode } =
         await GrantPaymentsService.createGrantPaymentSQS(testPayload)
-      expect(statusCode).toBe(200)
+      await expectCreatedSfiGrantPayment(statusCode, testPayload)
     }
 
     await setupRecord(todaySbi, todayISO)
