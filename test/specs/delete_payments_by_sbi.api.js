@@ -1,5 +1,6 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
+import { expectCreatedSfiGrantPayment } from '../services/grant_payments_assertions.js'
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
@@ -27,12 +28,7 @@ describe('Delete Grant Payments By SBI', () => {
     }
     const { statusCode } =
       await GrantPaymentsService.createGrantPaymentSQS(setupPayload)
-    expect(statusCode).toBe(200)
-    const { body: paymentsBody } =
-      await GrantPaymentsService.getGrantPaymentById(sbi)
-    expect(paymentsBody).toBeDefined()
-    expect(paymentsBody.sbi).toBe(sbi)
-    expect(paymentsBody.docs).toHaveLength(1)
+    await expectCreatedSfiGrantPayment(statusCode, setupPayload)
   })
 
   it('Should delete grant payments for the supplied SBI', async () => {

@@ -6,6 +6,7 @@ import {
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
+import { expectCreatedSfiGrantPayment } from '../services/grant_payments_assertions.js'
 
 describe('Grants Payment Service - Get Grant Payments', () => {
   let testClaimId
@@ -29,9 +30,7 @@ describe('Grants Payment Service - Get Grant Payments', () => {
       }))
     }
     const { statusCode } = await createGrantPaymentSQS(setupPayload)
-    if (statusCode !== 200) {
-      throw new Error(`Setup failed: Expected 200 but got ${statusCode}`)
-    }
+    await expectCreatedSfiGrantPayment(statusCode, setupPayload)
   })
 
   it('Should validate full structure and exact values', async () => {

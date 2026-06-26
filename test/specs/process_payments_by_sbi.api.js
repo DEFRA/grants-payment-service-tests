@@ -1,5 +1,6 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
+import { expectCreatedSfiGrantPayment } from '../services/grant_payments_assertions.js'
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
@@ -25,7 +26,7 @@ describe('Grant Payments Service - Process Payments By SBI', () => {
     }
     const { statusCode } =
       await GrantPaymentsService.createGrantPaymentSQS(setupPayload)
-    expect(statusCode).toBe(200)
+    await expectCreatedSfiGrantPayment(statusCode, setupPayload)
   })
 
   it('Should process all payments for the supplied SBI', async () => {
