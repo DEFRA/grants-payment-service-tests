@@ -198,7 +198,7 @@ export async function getDailyPayments(date) {
   if (responseData.docs) {
     console.log(`RECORDS FOUND: ${responseData.docs.length}\n`)
   }
-  console.log('RESPONSE DATA:', responseData)
+  console.log(`BODY:   ${JSON.stringify(responseData, null, 2)}\n`)
   return { statusCode, body: responseData }
 }
 
@@ -224,6 +224,7 @@ export async function processPayments(date) {
   const responseData = await body.json()
   console.log('<<<<< INCOMING RESPONSE : process-payments:POST <<<<<')
   console.log(`STATUS: ${statusCode}`)
+  console.log(`BODY:   ${JSON.stringify(responseData, null, 2)}\n`)
 
   return { statusCode, body: responseData }
 }

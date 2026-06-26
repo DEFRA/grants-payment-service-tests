@@ -7,9 +7,11 @@
     {
       "sourceSystem": "FPTT",
       "deliveryBody": "RP00",
+      "fesCode": "FALS_FPTT",
       "paymentRequestNumber": 1,
-      "correlationId": "f7297a7d-15d1-407d-a246-e2988680b93d",
+      "correlationId": "f7297a7d-15d1-407a-a246-e2988680b93d",
       "invoiceNumber": "R00000036-V001QX",
+      "ledger": "AP",
       "originalInvoiceNumber": "",
       "agreementNumber": "FPTT175063071",
       "totalAmountPence": "27284",
@@ -22,17 +24,25 @@
           "status": "pending",
           "invoiceLines": [
             {
+              "accountCode": "SOS710",
               "amountPence": "21",
+              "deliveryBody": "RP00",
               "description": "2026-08-15: Parcel: 6898: Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             },
             {
+              "accountCode": "SOS710",
               "amountPence": "6800",
+              "deliveryBody": "RP00",
               "description": "2026-08-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             }
           ],
-          "correlationId": "95e0545d-94c8-4fc1-9fab-3ff2fbff9e40"
+          "correlationId": "95e0545a-94c8-4fc1-9fab-3ff2fbff9e40"
         },
         {
           "dueDate": "2026-11-15",
@@ -40,17 +50,25 @@
           "status": "pending",
           "invoiceLines": [
             {
+              "accountCode": "SOS710",
               "amountPence": "21",
+              "deliveryBody": "RP00",
               "description": "2026-11-15: Parcel: 6898: Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             },
             {
+              "accountCode": "SOS710",
               "amountPence": "6800",
+              "deliveryBody": "RP00",
               "description": "2026-11-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             }
           ],
-          "correlationId": "4c57f46e-0b26-4666-9ca3-3a5ba47e2852"
+          "correlationId": "4c57f46b-0b26-4666-9ca3-3a5ba47e2852"
         },
         {
           "dueDate": "2027-02-15",
@@ -58,17 +76,25 @@
           "status": "pending",
           "invoiceLines": [
             {
+              "accountCode": "SOS710",
               "amountPence": "21",
+              "deliveryBody": "RP00",
               "description": "2027-02-15: Parcel: 6898: Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             },
             {
+              "accountCode": "SOS710",
               "amountPence": "6800",
+              "deliveryBody": "RP00",
               "description": "2027-02-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             }
           ],
-          "correlationId": "7f144124-ea06-4dc8-bfbb-74f39976dc1c"
+          "correlationId": "7f144129-ea06-4dc8-bfbb-74f39976dc1c"
         },
         {
           "dueDate": "2027-05-15",
@@ -76,17 +102,25 @@
           "status": "pending",
           "invoiceLines": [
             {
+              "accountCode": "SOS710",
               "amountPence": "21",
+              "deliveryBody": "RP00",
               "description": "2027-05-15: Parcel: 6898: Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             },
             {
+              "accountCode": "SOS710",
               "amountPence": "6800",
+              "deliveryBody": "RP00",
               "description": "2027-05-15: One-off payment per agreement per year for Assess moorland and produce a written record",
+              "fundCode": "DRD10",
+              "marketingYear": "2026",
               "schemeCode": "CMOR1"
             }
           ],
-          "correlationId": "8356ba7f-e496-4d52-8bb4-beb9a25f4095"
+          "correlationId": "8356ba6f-e496-4d52-8bb4-beb9a25f4095"
         }
       ]
     }

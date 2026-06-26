@@ -70,6 +70,7 @@ export const config = {
           browserName: 'chrome',
           'goog:chromeOptions': {
             args: [
+              '--headless=new',
               '--no-sandbox',
               '--disable-infobars',
               '--disable-gpu',
