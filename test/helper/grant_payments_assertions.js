@@ -1,5 +1,5 @@
 import { expect } from '@wdio/globals'
-import { getGrantPaymentById } from './grant_payments_service.js'
+import { getGrantPaymentById } from '../services/grant_payments_service.js'
 
 export async function expectCreatedSfiGrantPayment(statusCode, setupPayload) {
   expect(statusCode).toBe(200)

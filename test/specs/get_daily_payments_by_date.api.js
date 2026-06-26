@@ -6,7 +6,7 @@ import {
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
-import { expectCreatedSfiGrantPayment } from '../services/grant_payments_assertions.js'
+import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
 
 describe('Grants Payment Service - Get Daily Payments', () => {
   let testClaimId
