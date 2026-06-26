@@ -1,6 +1,6 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-sfi-payload_01.json' // Your JSON source
+import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
 describe('Grants Payment Service - Cancel Payments', () => {

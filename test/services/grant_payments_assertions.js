@@ -25,7 +25,6 @@ export async function expectCreatedSfiGrantPayment(statusCode, setupPayload) {
   expect(record.grants).toHaveLength(setupPayload.grants.length)
   record.grants.forEach((grant, grantIndex) => {
     const expectedGrant = setupPayload.grants[grantIndex]
-
     expect(grant.sourceSystem).toBe(expectedGrant.sourceSystem)
     expect(grant.deliveryBody).toBe(expectedGrant.deliveryBody)
     expect(grant.fesCode).toBe(expectedGrant.fesCode)
