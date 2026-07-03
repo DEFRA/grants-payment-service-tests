@@ -7,10 +7,6 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
   let testClaimId
   let setupPayload
   const sbi = faker.string.numeric(10)
-  const formatToHubDate = (isoDate) => {
-    const [y, m, d] = isoDate.split('-')
-    return `${d}/${m}/${y}`
-  }
   const getTomorrowDate = () => {
     const tomorrow = new Date()
     tomorrow.setDate(tomorrow.getDate() + 1)
@@ -52,7 +48,6 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
     const grant = setupPayload.grants[0]
     const currentDueDate = payment.dueDate
     console.log('currentDueDate', currentDueDate)
-    const hubDisplayDate = formatToHubDate(currentDueDate)
     const { body: beforeBody } =
       await GrantPaymentsService.getGrantPaymentById(sbi)
     const recordBefore = beforeBody.docs.find((r) => r.sbi === sbi)
@@ -77,7 +72,7 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
       sourceSystem: 'WMP',
       ledger: 'AP',
       deliveryBody: 'RP10',
-      invoiceNumber: 'R00000001-V001Q1',
+      invoiceNumber: 'R00000001-V001',
       frn: payload.frn,
       sbi,
       fesCode: 'FALS_WMP',
@@ -86,13 +81,13 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
       agreementNumber: grant.agreementNumber.replace('WPM', ''),
       contractNumber: testClaimId,
       currency: 'GBP',
-      dueDate: hubDisplayDate,
+      dueDate: '',
       remittanceDescription: 'Woodland Management Plan Payment',
       correlationId: payment.correlationId,
       value: '-12.34',
       annualValue: '12.34'
     })
-    expect(hubBody.invoiceNumber).toBe(`R00000001-V001Q1`)
+    expect(hubBody.invoiceNumber).toBe(`R00000001-V001`)
     // Single invoice line
     expect(hubBody.invoiceLines).toHaveLength(1)
 
