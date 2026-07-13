@@ -7,6 +7,10 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
   let testClaimId
   let setupPayload
   const sbi = faker.string.numeric(10)
+  const formatToHubDate = (isoDate) => {
+    const [y, m, d] = isoDate.split('-')
+    return `${d}/${m}/${y}`
+  }
   const getTomorrowDate = () => {
     const tomorrow = new Date()
     tomorrow.setDate(tomorrow.getDate() + 1)
@@ -48,6 +52,7 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
     const grant = setupPayload.grants[0]
     const currentDueDate = payment.dueDate
     console.log('currentDueDate', currentDueDate)
+    const hubDisplayDate = formatToHubDate(currentDueDate)
     const { body: beforeBody } =
       await GrantPaymentsService.getGrantPaymentById(sbi)
     const recordBefore = beforeBody.docs.find((r) => r.sbi === sbi)
@@ -81,7 +86,7 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
       agreementNumber: grant.agreementNumber.replace('WPM', ''),
       contractNumber: testClaimId,
       currency: 'GBP',
-      dueDate: '',
+      dueDate: hubDisplayDate,
       remittanceDescription: 'Woodland Management Plan Payment',
       correlationId: payment.correlationId,
       value: '-12.34',
