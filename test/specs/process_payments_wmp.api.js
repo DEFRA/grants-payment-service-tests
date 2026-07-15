@@ -81,7 +81,6 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
       agreementNumber: grant.agreementNumber.replace('WPM', ''),
       contractNumber: testClaimId,
       currency: 'GBP',
-      dueDate: '',
       remittanceDescription: 'Woodland Management Plan Payment',
       correlationId: payment.correlationId,
       value: '-12.34',
