@@ -83,8 +83,7 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
       currency: 'GBP',
       remittanceDescription: 'Woodland Management Plan Payment',
       correlationId: payment.correlationId,
-      value: '-12.34',
-      annualValue: '12.34'
+      value: '-12.34'
     })
     expect(hubBody.invoiceNumber).toBe(`R00000001-V001`)
     // Single invoice line
