@@ -90,7 +90,7 @@ describe('Grants Payment Service - Store and Process Payments for WMP', () => {
     expect(hubBody.invoiceLines).toHaveLength(1)
 
     expect(hubBody.invoiceLines[0]).toMatchObject({
-      schemeCode: '82555',
+      schemeCode: '51840',
       accountCode: 'SOS710',
       fundCode: 'DRD10',
       agreementNumber: grant.agreementNumber.replace('WPM', ''),
