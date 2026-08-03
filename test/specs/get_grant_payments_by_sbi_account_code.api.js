@@ -4,15 +4,17 @@ import {
   getGrantPaymentById,
   getGrantPaymentBySbiAccountId
 } from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-sfi-payload_01.json'
+import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { replaceDatesWithFuture } from '../helper/date_helper.js'
 
 describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code', () => {
   const accountCode = 'DRD10'
   const sbi = faker.string.numeric(10)
   before(async () => {
+    const payload = replaceDatesWithFuture(payloadData)
     const setupPayload = {
       ...payload,
       sbi,
@@ -33,6 +35,7 @@ describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code'
   })
 
   it('Should fetch a single grant payment record by its claimId', async () => {
+    const payload = replaceDatesWithFuture(payloadData)
     const currentDueDate = payload.grants[0].payments[0].dueDate
     // Process payment
     const { statusCode: processStatus, body: processBody } =

@@ -3,10 +3,11 @@ import {
   createGrantPaymentSQS,
   getGrantPayments
 } from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-sfi-payload_01.json'
+import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { replaceDatesWithFuture } from '../helper/date_helper.js'
 
 describe('Grants Payment Service - Get Grant Payments', () => {
   let testClaimId
@@ -15,6 +16,7 @@ describe('Grants Payment Service - Get Grant Payments', () => {
   const sbi = faker.string.numeric(10)
 
   before(async () => {
+    const payload = replaceDatesWithFuture(payloadData)
     testClaimId = `R${Date.now()}`
     setupPayload = {
       ...payload,
@@ -47,6 +49,7 @@ describe('Grants Payment Service - Get Grant Payments', () => {
         `ERROR: Record with SBI ${sbi} and ClaimId ${testClaimId} not found in daily payments!`
       )
     }
+    const payload = replaceDatesWithFuture(payloadData)
     expect(createdRecord).toBeDefined()
     expect(createdRecord.claimId).toBe(testClaimId)
     expect(createdRecord.sbi).toBe(sbi)

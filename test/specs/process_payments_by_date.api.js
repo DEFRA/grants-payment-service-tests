@@ -1,7 +1,8 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
-import payload from '../data/grant-payment-sfi-payload_01.json'
+import { replaceDatesWithFuture } from '../helper/date_helper.js'
+import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
 describe('Grants Payment Service - Process Payments', () => {
@@ -18,6 +19,7 @@ describe('Grants Payment Service - Process Payments', () => {
   before(async () => {
     testClaimId = `R${Date.now()}`
 
+    const payload = replaceDatesWithFuture(payloadData)
     setupPayload = {
       ...payload,
       sbi,

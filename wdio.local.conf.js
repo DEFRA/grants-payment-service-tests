@@ -1,4 +1,8 @@
 import allure from 'allure-commandline'
+import dotenv from 'dotenv'
+
+// Load .env file
+dotenv.config()
 
 const debug = process.env.DEBUG
 const oneMinute = 60 * 1000

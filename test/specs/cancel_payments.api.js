@@ -1,13 +1,15 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
-import payload from '../data/grant-payment-sfi-payload_01.json'
+import { replaceDatesWithFuture } from '../helper/date_helper.js'
+import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
 describe('Grants Payment Service - Cancel Payments', () => {
   const sbi = faker.string.numeric(10)
-  const frn = payload.frn
+  const frn = payloadData.frn
 
   it('should create, process one payment, and then cancel all', async () => {
+    const payload = replaceDatesWithFuture(payloadData)
     const setupPayload = {
       ...payload,
       sbi,
