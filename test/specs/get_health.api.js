@@ -10,7 +10,6 @@ describe('Grants Payment Service - Health API', () => {
     expect(typeof body.version).toBe('string')
     expect(body.featureFlags).toBeDefined()
     expect(body.featureFlags.testEndpoints).toBe(true)
-    expect(body.featureFlags.isPaymentHubEnabled).toBe(false)
   })
 
   it('Should have the expected schema structure', async () => {

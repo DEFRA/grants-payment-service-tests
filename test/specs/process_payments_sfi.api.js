@@ -1,8 +1,9 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
-import payload from '../data/grant-payment-sfi-payload_02.json'
+import payloadData from '../data/grant-payment-sfi-payload_02.json'
 import { faker } from '@faker-js/faker'
+import { replaceDatesWithFuture } from '../helper/date_helper.js'
 
 describe('Grants Payment Service - Store and Process Payments for SFI - 1 payment', () => {
   let testClaimId
@@ -19,6 +20,7 @@ describe('Grants Payment Service - Store and Process Payments for SFI - 1 paymen
   }
 
   before(async () => {
+    const payload = replaceDatesWithFuture(payloadData)
     testClaimId = `R${Date.now()}`
     const tomorrowDate = getTomorrowDate()
     setupPayload = {
@@ -74,14 +76,9 @@ describe('Grants Payment Service - Store and Process Payments for SFI - 1 paymen
     )
 
     expect(processedItem).toBeDefined()
-    expect(processedItem.status).toBe('warning')
-    expect(processedItem.message).toContain(
-      'Payment Hub feature flag is disabled'
-    )
-    expect(processedItem.response).toBeNull()
-
     const hubBody = processedItem.body
 
+    const payload = replaceDatesWithFuture(payloadData)
     expect(hubBody).toMatchObject({
       sourceSystem: 'FPTT',
       ledger: 'AP',

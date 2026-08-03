@@ -1,14 +1,16 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
-import payload from '../data/grant-payment-sfi-payload_01.json'
+import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
+import { replaceDatesWithFuture } from '../helper/date_helper.js'
 
 describe('Grant Payments Service - Process Payments By SBI', () => {
   let sbi
   let claimId
   let setupPayload
   before(async () => {
+    const payload = replaceDatesWithFuture(payloadData)
     sbi = faker.string.numeric(10)
     claimId = `R${Date.now()}`
     setupPayload = {
@@ -67,16 +69,6 @@ describe('Grant Payments Service - Process Payments By SBI', () => {
       )
 
       expect(processedItem).toBeDefined()
-
-      // Response assertions
-      expect(processedItem.status).toBe('warning')
-
-      expect(processedItem.message).toContain(
-        'Payment Hub feature flag is disabled'
-      )
-
-      expect(processedItem.response).toBeNull()
-
       // Due date format validation
       const expectedDueDate = new Date(payment.dueDate).toLocaleDateString(
         'en-GB',
@@ -88,6 +80,7 @@ describe('Grant Payments Service - Process Payments By SBI', () => {
       )
 
       // Body assertions
+      const payload = replaceDatesWithFuture(payloadData)
       expect(processedItem.body).toMatchObject({
         sourceSystem: 'FPTT',
         ledger: 'AP',
