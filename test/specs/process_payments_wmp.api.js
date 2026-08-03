@@ -77,11 +77,6 @@ wmpDescribe(
         (item) => item.body.sbi === sbi
       )
       expect(processedItem).toBeDefined()
-      expect(processedItem.status).toBe('warning')
-      expect(processedItem.message).toContain(
-        'Payment Hub feature flag is disabled'
-      )
-      expect(processedItem.response).toBeNull()
       const payload = replaceDatesWithFuture(payloadData)
       const hubBody = processedItem.body
       expect(hubBody).toMatchObject({

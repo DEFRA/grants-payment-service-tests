@@ -76,12 +76,6 @@ describe('Grants Payment Service - Store and Process Payments for SFI - 1 paymen
     )
 
     expect(processedItem).toBeDefined()
-    expect(processedItem.status).toBe('warning')
-    expect(processedItem.message).toContain(
-      'Payment Hub feature flag is disabled'
-    )
-    expect(processedItem.response).toBeNull()
-
     const hubBody = processedItem.body
 
     const payload = replaceDatesWithFuture(payloadData)

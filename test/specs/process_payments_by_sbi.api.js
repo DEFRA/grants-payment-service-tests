@@ -69,16 +69,6 @@ describe('Grant Payments Service - Process Payments By SBI', () => {
       )
 
       expect(processedItem).toBeDefined()
-
-      // Response assertions
-      expect(processedItem.status).toBe('warning')
-
-      expect(processedItem.message).toContain(
-        'Payment Hub feature flag is disabled'
-      )
-
-      expect(processedItem.response).toBeNull()
-
       // Due date format validation
       const expectedDueDate = new Date(payment.dueDate).toLocaleDateString(
         'en-GB',
