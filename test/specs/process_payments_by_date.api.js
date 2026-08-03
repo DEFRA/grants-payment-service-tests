@@ -110,7 +110,7 @@ describe('Grants Payment Service - Process Payments', () => {
         ledger: 'AP',
         deliveryBody: 'RP00',
         invoiceNumber: 'R00000036-V001Q' + (index + 1),
-        frn: payload.frn,
+        frn: '1102285668',
         sbi,
         fesCode: 'FALS_FPTT',
         marketingYear: '2026',
