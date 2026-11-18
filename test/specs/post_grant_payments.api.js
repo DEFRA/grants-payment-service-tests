@@ -1,16 +1,17 @@
 import { expect } from '@wdio/globals'
 import { createGrantPaymentSQS } from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 
 describe('Grants Payment Service - Create Grant Payments', () => {
   it('Should successfully create grant payments', async () => {
-    const sbi = faker.string.numeric(10)
+    const identifiers = generateTestIdentifiers()
     const setupPayload = {
       ...payload,
-      sbi,
+      ...identifiers,
       grants: payload.grants.map((grant) => ({
         ...grant,
         correlationId: faker.string.uuid(),
@@ -23,6 +24,6 @@ describe('Grants Payment Service - Create Grant Payments', () => {
     const { statusCode, body } = await createGrantPaymentSQS(setupPayload)
     await expectCreatedSfiGrantPayment(statusCode, setupPayload)
     expect(body.message).toBe('Test queue message posted')
-    await GrantPaymentsService.deleteGrantPaymentsById(sbi)
+    await GrantPaymentsService.deleteGrantPaymentsById(identifiers.sbi)
   })
 })

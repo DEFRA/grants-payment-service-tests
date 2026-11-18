@@ -4,6 +4,7 @@ import payloadData from '../data/grant-payment-wmp-payload_01.json'
 import { faker } from '@faker-js/faker'
 import { isEnvTrue } from '../services/env-flags.js'
 import { replaceDatesWithFuture } from '../helper/date_helper.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 
 const wmpDisabled = isEnvTrue('WMP_ENABLED')
 const wmpDescribe = wmpDisabled ? describe : describe.skip
@@ -20,7 +21,8 @@ wmpDescribe(
   () => {
     let testClaimId
     let setupPayload
-    const sbi = faker.string.numeric(10)
+    const identifiers = generateTestIdentifiers()
+    const { sbi } = identifiers
     const getTomorrowDate = () => {
       const tomorrow = new Date()
       tomorrow.setDate(tomorrow.getDate() + 1)
@@ -33,7 +35,7 @@ wmpDescribe(
       const tomorrowDate = getTomorrowDate()
       setupPayload = {
         ...payload,
-        sbi,
+        ...identifiers,
         claimId: testClaimId,
         grants: [
           {
@@ -77,14 +79,13 @@ wmpDescribe(
         (item) => item.body.sbi === sbi
       )
       expect(processedItem).toBeDefined()
-      const payload = replaceDatesWithFuture(payloadData)
       const hubBody = processedItem.body
       expect(hubBody).toMatchObject({
         sourceSystem: 'WMP',
         ledger: 'AP',
         deliveryBody: 'RP10',
         invoiceNumber: 'R00000001-V001',
-        frn: payload.frn,
+        frn: setupPayload.frn,
         sbi,
         fesCode: 'FALS_WMP',
         marketingYear: '2026',

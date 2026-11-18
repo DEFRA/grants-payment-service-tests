@@ -7,20 +7,22 @@ import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 import { replaceDatesWithFuture } from '../helper/date_helper.js'
 
 describe('Grants Payment Service - Get Grant Payments', () => {
   let testClaimId
   let setupPayload
 
-  const sbi = faker.string.numeric(10)
+  const identifiers = generateTestIdentifiers()
+  const { sbi } = identifiers
 
   before(async () => {
     const payload = replaceDatesWithFuture(payloadData)
     testClaimId = `R${Date.now()}`
     setupPayload = {
       ...payload,
-      sbi,
+      ...identifiers,
       claimId: testClaimId,
       grants: payload.grants.map((grant) => ({
         ...grant,
@@ -49,11 +51,10 @@ describe('Grants Payment Service - Get Grant Payments', () => {
         `ERROR: Record with SBI ${sbi} and ClaimId ${testClaimId} not found in daily payments!`
       )
     }
-    const payload = replaceDatesWithFuture(payloadData)
     expect(createdRecord).toBeDefined()
     expect(createdRecord.claimId).toBe(testClaimId)
     expect(createdRecord.sbi).toBe(sbi)
-    expect(createdRecord.frn).toBe(payload.frn)
+    expect(createdRecord.frn).toBe(setupPayload.frn)
     expect(createdRecord._id).toBeDefined()
     expect(createdRecord.createdAt).toBeDefined()
     expect(createdRecord.updatedAt).toBeDefined()

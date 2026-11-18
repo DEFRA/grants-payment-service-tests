@@ -9,6 +9,13 @@ export function getFutureDate(daysOffset = 15) {
   return date.toISOString().split('T')[0]
 }
 
+export function getNextMonthIsoPrefix(date = new Date()) {
+  const nextMonth = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1)
+  )
+  return nextMonth.toISOString().slice(0, 7)
+}
+
 /**
  * Replace dates in payload with future dates
  * Maps old dates to corresponding future dates maintaining patterns

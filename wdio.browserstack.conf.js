@@ -1,6 +1,9 @@
 import fs from 'node:fs'
 import { ProxyAgent, setGlobalDispatcher } from 'undici'
 import { bootstrap } from 'global-agent'
+import { initializeTestIdentifierRun } from './test/helper/test_identifiers.js'
+
+initializeTestIdentifierRun()
 
 /**
  * Enable webdriver.io to use the outbound proxy.

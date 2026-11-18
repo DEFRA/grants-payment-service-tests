@@ -1,6 +1,7 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
@@ -10,12 +11,13 @@ describe('Delete Grant Payments By SBI', () => {
   let setupPayload
 
   before(async () => {
-    sbi = faker.string.numeric(10)
+    const identifiers = generateTestIdentifiers()
+    sbi = identifiers.sbi
     claimId = `R${Date.now()}`
 
     setupPayload = {
       ...payload,
-      sbi,
+      ...identifiers,
       claimId,
       grants: payload.grants.map((grant) => ({
         ...grant,

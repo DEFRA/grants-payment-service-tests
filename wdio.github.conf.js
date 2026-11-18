@@ -1,4 +1,7 @@
 import allure from 'allure-commandline'
+import { initializeTestIdentifierRun } from './test/helper/test_identifiers.js'
+
+initializeTestIdentifierRun()
 
 const oneMinute = 60 * 1000
 

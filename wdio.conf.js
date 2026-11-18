@@ -1,4 +1,7 @@
 import fs from 'node:fs'
+import { initializeTestIdentifierRun } from './test/helper/test_identifiers.js'
+
+initializeTestIdentifierRun()
 
 const oneMinute = 60 * 1000
 

@@ -1,6 +1,7 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
@@ -26,19 +27,21 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
     todayHubFormat = formatToHubDate(todayISO)
     tomorrowHubFormat = formatToHubDate(tomorrowISO)
 
-    todaySbi = faker.string.numeric(10)
-    tomorrowSbi = faker.string.numeric(10)
+    const todayIdentifiers = generateTestIdentifiers()
+    const tomorrowIdentifiers = generateTestIdentifiers()
+    todaySbi = todayIdentifiers.sbi
+    tomorrowSbi = tomorrowIdentifiers.sbi
 
     console.log(
       `>>> Setup: Creating records for Today (${todayISO}) and Tomorrow (${tomorrowISO})`
     )
 
     // Helper to build payload and create records
-    const setupRecord = async (sbi, date) => {
+    const setupRecord = async (identifiers, date) => {
       const testPayload = JSON.parse(JSON.stringify(payload))
 
-      testPayload.sbi = sbi
-      testPayload.claimId = `CLAIM_${sbi}_${Date.now()}`
+      Object.assign(testPayload, identifiers)
+      testPayload.claimId = `CLAIM_${identifiers.sbi}_${Date.now()}`
 
       // Dynamic grant correlationId
       testPayload.grants = testPayload.grants.map((grant) => ({
@@ -60,8 +63,8 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
       await expectCreatedSfiGrantPayment(statusCode, testPayload)
     }
 
-    await setupRecord(todaySbi, todayISO)
-    await setupRecord(tomorrowSbi, tomorrowISO)
+    await setupRecord(todayIdentifiers, todayISO)
+    await setupRecord(tomorrowIdentifiers, tomorrowISO)
   })
 
   it('should process both Today and Tomorrow payments in a single service call', async () => {
