@@ -1,6 +1,8 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
+import { getNextMonthIsoPrefix } from '../helper/date_helper.js'
 import payload from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 
@@ -9,30 +11,28 @@ describe('Grants Payment Service - Process payments for 13th, 14th, 15th and ign
   let processingDate
 
   before(async () => {
-    const year = new Date().getFullYear()
-
-    const randomMonth = faker.number.int({ min: 1, max: 12 })
-    const month = String(randomMonth).padStart(2, '0')
+    const month = getNextMonthIsoPrefix()
 
     const paymentDates = [
-      `${year}-${month}-13`,
-      `${year}-${month}-14`,
-      `${year}-${month}-15`,
-      `${year}-${month}-16`
+      `${month}-13`,
+      `${month}-14`,
+      `${month}-15`,
+      `${month}-16`
     ]
 
-    processingDate = `${year}-${month}-14`
+    processingDate = `${month}-14`
 
     console.log('Payment Dates:', paymentDates)
     console.log('Processing Date:', processingDate)
 
     for (const dueDate of paymentDates) {
-      const sbi = faker.string.numeric(10)
+      const identifiers = generateTestIdentifiers()
+      const { sbi } = identifiers
       const claimId = `R${Date.now()}${faker.number.int(99999)}`
 
       const testPayload = {
         ...payload,
-        sbi,
+        ...identifiers,
         claimId,
         grants: payload.grants.map((grant) => ({
           ...grant,
@@ -47,17 +47,17 @@ describe('Grants Payment Service - Process payments for 13th, 14th, 15th and ign
         }))
       }
 
-      const { statusCode } =
-        await GrantPaymentsService.createGrantPaymentSQS(testPayload)
-
-      await expectCreatedSfiGrantPayment(statusCode, testPayload)
-
       records.push({
         sbi,
         claimId,
         dueDate,
-        shouldProcess: dueDate !== `${year}-${month}-16`
+        shouldProcess: dueDate !== `${month}-16`
       })
+
+      const { statusCode } =
+        await GrantPaymentsService.createGrantPaymentSQS(testPayload)
+
+      await expectCreatedSfiGrantPayment(statusCode, testPayload)
     }
   })
 

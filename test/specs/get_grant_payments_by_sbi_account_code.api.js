@@ -8,16 +8,18 @@ import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 import { replaceDatesWithFuture } from '../helper/date_helper.js'
 
 describe('Grants Payment Service - Get Grant Payment by SBI ID and Account Code', () => {
   const accountCode = 'DRD10'
-  const sbi = faker.string.numeric(10)
+  const identifiers = generateTestIdentifiers()
+  const { sbi } = identifiers
   before(async () => {
     const payload = replaceDatesWithFuture(payloadData)
     const setupPayload = {
       ...payload,
-      sbi,
+      ...identifiers,
       grants: payload.grants.map((grant) => ({
         ...grant,
         correlationId: faker.string.uuid(),

@@ -1,6 +1,7 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 import { replaceDatesWithFuture } from '../helper/date_helper.js'
 import payloadData from '../data/grant-payment-sfi-payload_01.json'
 import { faker } from '@faker-js/faker'
@@ -9,7 +10,8 @@ describe('Grants Payment Service - Process Payments', () => {
   let testClaimId
   let setupPayload
 
-  const sbi = faker.string.numeric(10)
+  const identifiers = generateTestIdentifiers()
+  const { sbi } = identifiers
 
   const formatToHubDate = (isoDate) => {
     const [y, m, d] = isoDate.split('-')
@@ -22,7 +24,7 @@ describe('Grants Payment Service - Process Payments', () => {
     const payload = replaceDatesWithFuture(payloadData)
     setupPayload = {
       ...payload,
-      sbi,
+      ...identifiers,
       claimId: testClaimId,
       grants: payload.grants.map((grant) => ({
         ...grant,
@@ -110,7 +112,7 @@ describe('Grants Payment Service - Process Payments', () => {
         ledger: 'AP',
         deliveryBody: 'RP00',
         invoiceNumber: 'R00000036-V001Q' + (index + 1),
-        frn: '1102285668',
+        frn: setupPayload.frn,
         sbi,
         fesCode: 'FALS_FPTT',
         marketingYear: '2026',

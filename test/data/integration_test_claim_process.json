@@ -3,8 +3,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000001",
       "scheme": "WMP",
       "grants": [
@@ -48,8 +48,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000002",
       "scheme": "WMP",
       "grants": [
@@ -93,8 +93,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000003",
       "scheme": "WMP",
       "grants": [
@@ -138,8 +138,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000004",
       "scheme": "WMP",
       "grants": [
@@ -183,8 +183,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000005",
       "scheme": "WMP",
       "grants": [
@@ -228,8 +228,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000006",
       "scheme": "WMP",
       "grants": [
@@ -273,8 +273,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000007",
       "scheme": "WMP",
       "grants": [
@@ -318,8 +318,8 @@
     "type": "create_payment",
     "MessageId": "{{$guid}}",
     "data": {
-      "sbi": "123456789",
-      "frn": "1234567890",
+      "sbi": "800000001",
+      "frn": "700000001",
       "claimId": "R00000008",
       "scheme": "WMP",
       "grants": [

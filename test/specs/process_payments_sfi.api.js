@@ -1,6 +1,7 @@
 import { expect } from '@wdio/globals'
 import * as GrantPaymentsService from '../services/grant_payments_service.js'
 import { expectCreatedSfiGrantPayment } from '../helper/grant_payments_assertions.js'
+import { generateTestIdentifiers } from '../helper/test_identifiers.js'
 import payloadData from '../data/grant-payment-sfi-payload_02.json'
 import { faker } from '@faker-js/faker'
 import { replaceDatesWithFuture } from '../helper/date_helper.js'
@@ -8,7 +9,8 @@ import { replaceDatesWithFuture } from '../helper/date_helper.js'
 describe('Grants Payment Service - Store and Process Payments for SFI - 1 payment', () => {
   let testClaimId
   let setupPayload
-  const sbi = faker.string.numeric(10)
+  const identifiers = generateTestIdentifiers()
+  const { sbi } = identifiers
   const formatToHubDate = (isoDate) => {
     const [y, m, d] = isoDate.split('-')
     return `${d}/${m}/${y}`
@@ -25,7 +27,7 @@ describe('Grants Payment Service - Store and Process Payments for SFI - 1 paymen
     const tomorrowDate = getTomorrowDate()
     setupPayload = {
       ...payload,
-      sbi,
+      ...identifiers,
       claimId: testClaimId,
       grants: [
         {
@@ -78,12 +80,11 @@ describe('Grants Payment Service - Store and Process Payments for SFI - 1 paymen
     expect(processedItem).toBeDefined()
     const hubBody = processedItem.body
 
-    const payload = replaceDatesWithFuture(payloadData)
     expect(hubBody).toMatchObject({
       sourceSystem: 'FPTT',
       ledger: 'AP',
       deliveryBody: 'RP00',
-      frn: payload.frn,
+      frn: setupPayload.frn,
       sbi,
       fesCode: 'FALS_FPTT',
       marketingYear: '2026',

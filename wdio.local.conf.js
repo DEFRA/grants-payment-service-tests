@@ -1,8 +1,10 @@
 import allure from 'allure-commandline'
 import dotenv from 'dotenv'
+import { initializeTestIdentifierRun } from './test/helper/test_identifiers.js'
 
 // Load .env file
 dotenv.config()
+initializeTestIdentifierRun()
 
 const debug = process.env.DEBUG
 const oneMinute = 60 * 1000

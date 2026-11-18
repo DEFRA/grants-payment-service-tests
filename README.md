@@ -44,6 +44,12 @@ Start application you are testing on the url specified in `baseUrl` [wdio.local.
 npm run test:local
 ```
 
+API tests generate matching SBI and FRN values in the 8 and 7 series
+respectively. Each run selects a random starting point, and each
+WebdriverIO worker reserves up to 100 sequential identifier pairs. Concurrent
+runs can still collide because they do not use a shared allocator; tests delete
+records by SBI, so use an isolated test environment where possible.
+
 ### Debugging local tests
 
 ```bash
