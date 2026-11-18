@@ -50,7 +50,10 @@ describe('Grants Payment Service - Multi-Date Processing', () => {
 
         payments: grant.payments.map((payment, index) => ({
           ...payment,
-          dueDate: index === 0 ? date : payment.dueDate,
+          dueDate:
+            index === 0
+              ? date
+              : `${new Date().getFullYear() + index + 1}-02-15`,
           status: index === 0 ? 'pending' : payment.status,
 
           // Dynamic payment correlationId
